@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diagrama de Caso de Uso e Classes — Sistema de Matérias</title>
+<style>
+  :root{
+    --bg:#eaf6ff; --card:#ffffff; --accent:#7fc4ec; --accent2:#a9dcf5;
+    --border:#bfe3f7; --text:#183a4d; --muted:#5b8aa3; --line:#8ecbec;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    padding:24px 16px 48px;
+  }
+  h1{
+    text-align:center; font-size:1.4rem; color:#245a78; margin:0 0 6px;
+  }
+  .subtitle{text-align:center;color:var(--muted);margin-bottom:28px;font-size:.9rem;}
+  section{max-width:980px;margin:0 auto 36px;}
+  .section-title{
+    font-size:1rem; font-weight:700; color:#1c5170;
+    border-left:5px solid var(--accent); padding-left:10px; margin-bottom:16px;
+  }
+
+  /* ATORES */
+  .actors{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;}
+  .actor-col{display:flex;flex-direction:column;align-items:center;width:220px;}
+  .actor{
+    background:var(--card); border:2px solid var(--accent);
+    border-radius:14px; padding:14px 10px; width:100%; text-align:center;
+    box-shadow:0 2px 6px rgba(120,180,220,.25);
+  }
+  .actor-icon{font-size:1.6rem;}
+  .actor-name{font-weight:700;color:#1c5170;margin-top:2px;}
+  .arrow-down{color:var(--line);font-size:1.4rem;line-height:1;margin:4px 0;}
+  .usecase{
+    background:var(--accent2); border:1px solid var(--accent);
+    border-radius:20px; padding:8px 14px; font-size:.85rem; text-align:center;
+    color:#1c5170; font-weight:600; width:100%;
+  }
+  .shared-usecase{
+    margin:18px auto 0; max-width:320px; text-align:center;
+    background:#4aa8d8; color:#fff; border-radius:20px; padding:10px 18px;
+    font-weight:700; box-shadow:0 3px 8px rgba(70,150,190,.35);
+  }
+  .converge{position:relative; text-align:center; color:var(--line); font-size:1.3rem; margin:2px 0;}
+
+  /* CLASSES */
+  .class-chain{display:flex;flex-direction:column;align-items:center;gap:0;}
+  .class-box{
+    background:var(--card); border:2px solid var(--accent);
+    border-radius:10px; width:100%; max-width:420px; overflow:hidden;
+    box-shadow:0 2px 6px rgba(120,180,220,.25);
+  }
+  .class-title{
+    background:var(--accent); color:#fff; font-weight:700;
+    text-align:center; padding:8px; font-size:.95rem;
+  }
+  .class-body{padding:10px 16px;font-size:.85rem;}
+  .class-body .label{color:var(--muted);font-weight:600;margin-top:6px;}
+  .class-body ul{margin:4px 0 8px;padding-left:18px;}
+  .class-note{font-size:.75rem;color:var(--muted);text-align:center;margin-top:4px;max-width:420px;}
+  .link{color:var(--line);font-size:1.3rem;margin:2px 0;text-align:center;}
+  .card-multiplicity{font-size:.7rem;color:var(--muted);}
+
+  /* TABELA DE PERMISSÕES */
+  table{
+    width:100%; border-collapse:collapse; background:var(--card);
+    border-radius:10px; overflow:hidden; box-shadow:0 2px 6px rgba(120,180,220,.25);
+    font-size:.85rem;
+  }
+  th,td{padding:10px 8px; text-align:center; border-bottom:1px solid var(--border);}
+  th{background:var(--accent); color:#fff;}
+  td:first-child, th:first-child{text-align:left; font-weight:600; color:#1c5170;}
+  tr:last-child td{border-bottom:none;}
+  .yes{color:#1e8a4c;font-weight:700;}
+  .no{color:#c04b4b;font-weight:700;}
+  .partial{color:#b5860a;font-weight:700;}
+
+  /* BIMESTRES */
+  .bimestres{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
+  .bim-card{
+    background:var(--card); border:2px solid var(--accent);
+    border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(120,180,220,.25);
+  }
+  .bim-head{
+    background:linear-gradient(135deg,#7fc4ec,#4aa8d8); color:#fff;
+    padding:10px 14px;
+  }
+  .bim-head .num{font-size:.75rem; opacity:.9;}
+  .bim-head .tipo{font-weight:700; font-size:1rem;}
+  .bim-content{padding:12px 16px;}
+  .conteudo-item{
+    display:flex; gap:8px; align-items:flex-start;
+    padding:6px 0; border-bottom:1px dashed var(--border); font-size:.85rem;
+  }
+  .conteudo-item:last-child{border-bottom:none;}
+  .conteudo-cod{
+    background:var(--accent2); color:#1c5170; font-weight:700;
+    border-radius:6px; padding:1px 7px; font-size:.75rem; white-space:nowrap;
+  }
+  @media (max-width:640px){
+    .bimestres{grid-template-columns:1fr;}
+  }
+
+  @media (max-width:600px){
+    .actors{gap:14px;}
+    .actor-col{width:100%;max-width:260px;}
+  }
+</style>
+</head>
+<body>
+
+<h1>Diagrama de Caso de Uso e Classes</h1>
+<div class="subtitle">Sistema de Cadastro de Matérias, Bimestres e Conteúdos</div>
+
+<section>
+  <div class="section-title">Atores e Casos de Uso</div>
+  <div class="actors">
+    <div class="actor-col">
+      <div class="actor"><div class="actor-icon">🎓</div><div class="actor-name">Aluno</div></div>
+      <div class="arrow-down">↓</div>
+      <div class="usecase">Estudar Matérias</div>
+    </div>
+    <div class="actor-col">
+      <div class="actor"><div class="actor-icon">🧑‍🏫</div><div class="actor-name">Professor</div></div>
+      <div class="arrow-down">↓</div>
+      <div class="usecase">Lecionar Matérias</div>
+    </div>
+    <div class="actor-col">
+      <div class="actor"><div class="actor-icon">🏫</div><div class="actor-name">Direção</div></div>
+      <div class="arrow-down">↓</div>
+      <div class="usecase">Cadastro de Matérias e Conteúdos</div>
+    </div>
+  </div>
+  <div class="converge">↘ ↓ ↙</div>
+  <div class="shared-usecase">Tipos de Matérias</div>
+</section>
+
+<section>
+  <div class="section-title">Diagrama de Classes</div>
+  <div class="class-chain">
+    <div class="class-box">
+      <div class="class-title">Matérias</div>
+      <div class="class-body">
+        <div class="label">Atributos</div>
+        <ul><li>código</li><li>nome</li></ul>
+        <div class="label">Operações</div>
+        <ul><li>cadastrar</li><li>pesquisar</li><li>deletar</li><li>atualizar</li></ul>
+      </div>
+    </div>
+    <div class="link">│<br>◇ 1..4<br>↓</div>
+    <div class="class-box">
+      <div class="class-title">Bimestre</div>
+      <div class="class-body">
+        <div class="label">Atributos</div>
+        <ul><li>tipo de bimestre</li></ul>
+        <div class="label">Operações</div>
+        <ul><li>cadastro</li></ul>
+      </div>
+    </div>
+    <div class="class-note">4 bimestres — cada um com um tipo de conteúdo diferente</div>
+    <div class="link">│<br>◇ 1..*<br>↓</div>
+    <div class="class-box">
+      <div class="class-title">Conteúdos</div>
+      <div class="class-body">
+        <div class="label">Atributos</div>
+        <ul><li>código</li><li>descrição</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-title">Bimestres e Conteúdos (exemplo)</div>
+  <div class="bimestres">
+    <div class="bim-card">
+      <div class="bim-head"><div class="num">Bimestre 1</div><div class="tipo">Tipo: Introdutório</div></div>
+      <div class="bim-content">
+        <div class="conteudo-item"><span class="conteudo-cod">C001</span> Apresentação da disciplina e objetivos</div>
+        <div class="conteudo-item"><span class="conteudo-cod">C002</span> Conceitos e terminologias básicas</div>
+        <div class="conteudo-item"><span class="conteudo-cod">C003</span> Contextualização histórica do tema</div>
+      </div>
+    </div>
+    <div class="bim-card">
+      <div class="bim-head"><div class="num">Bimestre 2</div><div class="tipo">Tipo: Teórico</div></div>
+      <div class="bim-content">
+        <div class="conteudo-item"><span class="conteudo-cod">C004</span> Fundamentos teóricos aprofundados</div>
+        <div class="conteudo-item"><span class="conteudo-cod">C005</span> Estudo de modelos e princípios</div>
+        <div class="conteudo-item"><span class="conteudo-cod">C006</span> Análise de casos teóricos</div>
+      </div>
+    </div>
+    <div class="bim-card">
+      <div class="bim-head"><div class="num">Bimestre 3</div><div class="tipo">Tipo: Prático</div></div>
+      <div class="bim-content">
+        <div class="conteudo-item"><span class="conteudo-cod">C007</span> Exercícios e atividades práticas</div>
+        <div class="conteudo-item"><span class="conteudo-cod">C008</span> Desenvolvimento de projeto aplicado</div>
+        <div class="conteudo-item"><span class="conteudo-cod">C009</span> Simulações e experimentos</div>
+      </div>
+    </div>
+    <div class="bim-card">
+      <div class="bim-head"><div class="num">Bimestre 4</div><div class="tipo">Tipo: Avaliativo</div></div>
+      <div class="bim-content">
+        <div class="conteudo-item"><span class="conteudo-cod">C010</span> Revisão geral dos conteúdos</div>
+        <div class="conteudo-item"><span class="conteudo-cod">C011</span> Apresentação de trabalhos finais</div>
+        <div class="conteudo-item"><span class="conteudo-cod">C012</span> Avaliação e encerramento do ciclo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-title">Permissões de Acesso</div>
+  <table>
+    <tr><th>Ator</th><th>Visualizar</th><th>Pesquisar</th><th>Cadastrar</th><th>Atualizar</th><th>Deletar</th></tr>
+    <tr><td>Aluno</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td></tr>
+    <tr><td>Professor</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td><td class="yes">✓</td><td class="no">✗</td></tr>
+    <tr><td>Direção</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+  </table>
+  <div class="class-note" style="margin-top:10px;">
+    O aluno acessa os conteúdos apenas por meio da Direção, sem permissão de edição.
+  </div>
+</section>
+
+</body>
+</html>
